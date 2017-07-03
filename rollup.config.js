@@ -2,10 +2,13 @@ import babel from 'rollup-plugin-babel';
 import pkg from './package.json';
 
 export default {
-  targets: [{
-    dest: pkg.main,
-    format: 'cjs'
-  }],
+  external: ['url-resolver-fs'],
+  targets: [
+    {
+      dest: pkg.main,
+      format: 'cjs'
+    }
+  ],
   plugins: [
     babel({
       babelrc: false,
