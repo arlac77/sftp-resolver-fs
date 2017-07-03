@@ -20,12 +20,15 @@ sftp-resolver-fs
 resolves sftp urls
 
 # API Reference
-{{#modules~}}
-- {{name}}
-{{/modules}}
 
-{{#functions}}* {{>docs}}
-{{/functions}}
+* <a name="get"></a>
+
+## get() ⇒ <code>string</code>
+Scheme name if 'sftp'
+
+**Kind**: global function  
+**Returns**: <code>string</code> - 'sftp'  
+
 * * *
 
 # install
