@@ -6,20 +6,20 @@
     "test": "ava",
     "pretest": "rollup -c tests/rollup.config.js",
     "posttest": "npm run prepare && markdown-doctest",
-    "prepare": "rollup -c -- src/module.js",
+    "prepare": "rollup -c -- src/sftp-scheme.js",
     "docs": "jsdoc2md --configure doc/jsdoc.json -l off -t doc/README.hbs -f src/*.js >README.md",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^3.0.0",
+    "ava": "^0.20.0",
+    "babel-preset-stage-3": "^6.24.1",
     "jsdoc-babel": "^0.3.0",
+    "jsdoc-to-markdown": "^3.0.0",
     "markdown-doctest": "^0.9.1",
     "nyc": "^11.0.3",
-    "ava": "^0.20.0",
     "rollup": "^0.43.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-multi-entry": "^2.0.1",
-    "babel-preset-stage-3": "^6.24.1",
     "semantic-release": "^6.3.6",
     "xo": "^0.19.0"
   },
@@ -28,8 +28,8 @@
   },
   "version": "0.0.0-semantic-release",
   "description": "resolves sftp urls",
-  "main": "dist/index.js",
-  "module": "src/module.js",
+  "main": "dist/sftp-scheme.js",
+  "module": "src/sftp-scheme.js",
   "keywords": [
     "npm-package-template"
   ],
@@ -41,7 +41,9 @@
     "url": "https://github.com/arlac77/sftp-resolver-fs/issues"
   },
   "homepage": "https://github.com/arlac77/sftp-resolver-fs#readme",
-  "dependencies": {},
+  "dependencies": {
+    "ssh2-sftp-client": "^1.1.0"
+  },
   "contributors": [
     {
       "name": "Markus Felten",
