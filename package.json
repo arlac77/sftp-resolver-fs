@@ -6,7 +6,7 @@
     "test": "ava",
     "pretest": "rollup -c tests/rollup.config.js",
     "posttest": "npm run prepare && markdown-doctest",
-    "prepare": "rollup -c -- {{module}}",
+    "prepare": "rollup -c -- src/module.js",
     "docs": "jsdoc2md --configure doc/jsdoc.json -l off -t doc/README.hbs -f src/*.js >README.md",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -27,8 +27,9 @@
     "node": ">=8.1.3"
   },
   "version": "0.0.0-semantic-release",
-  "description": "{{description}}",
+  "description": "resolves sftp urls",
   "main": "dist/index.js",
+  "module": "src/module.js",
   "keywords": [
     "npm-package-template"
   ],
