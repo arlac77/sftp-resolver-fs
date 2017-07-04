@@ -46,12 +46,19 @@ export default class SFTPScheme extends URLScheme {
       url = new URL(url);
       const sftp = new Client();
 
-      const conn = await sftp.connect({
+      const co = {
         host: url.host,
-        port: url.port || this.constructor.defaultPort,
-        username: url.username,
-        password: '******'
-      });
+        port: url.port || this.constructor.defaultPort
+      };
+
+      if (url.username !== undefined) {
+        co.username = url.username;
+      }
+      if (url.password !== undefined) {
+        co.password = url.password;
+      }
+
+      const conn = await sftp.connect(co);
 
       return conn.get(url.pathname);
     }
