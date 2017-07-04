@@ -1,5 +1,6 @@
 import { URLScheme } from 'url-resolver-fs';
 const Client = require('ssh2-sftp-client');
+const { URL } = require('url');
 
 function invalidURLError(url) {
   Promise.reject(new Error(`Invalid sftp url: ${url}`));
@@ -42,15 +43,17 @@ export default class SFTPScheme extends URLScheme {
     const m = url.match(/^sftp:\/\/(.*)/);
 
     if (m) {
+      url = new URL(url);
       const sftp = new Client();
+
       const conn = await sftp.connect({
-        host: '127.0.0.1',
-        port: '8080',
-        username: 'username',
+        host: url.host,
+        port: url.port || this.constructor.defaultPort,
+        username: url.username,
         password: '******'
       });
 
-      return conn.get(url.path);
+      return conn.get(url.pathname);
     }
 
     return invalidURLError(url);
