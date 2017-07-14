@@ -11,6 +11,7 @@ const STATUS_CODE = ssh2.SFTP_STATUS_CODE;
 const PORT = 12345;
 const USER = 'abc';
 const PASSWORD = 'secret';
+const FILE = path.join(__dirname, '..', 'tests', 'sftp-test.js');
 
 new ssh2.Server(
   {
@@ -24,63 +25,71 @@ new ssh2.Server(
     console.log('Client connected!');
 
     client
-      .on('authentication', function(ctx) {
+      .on('authentication', ctx => {
         if (
           ctx.method === 'password' &&
           ctx.username === USER &&
           ctx.password === PASSWORD
-        )
+        ) {
           ctx.accept();
-        else ctx.reject();
+        } else {
+          ctx.reject();
+        }
       })
-      .on('ready', function() {
+      .on('ready', () => {
         console.log('Client authenticated!');
 
-        client.on('session', function(accept, reject) {
-          var session = accept();
-          session.on('sftp', function(accept, reject) {
+        client.on('session', (accept, reject) => {
+          const session = accept();
+
+          console.log('Client SSH session');
+
+          session.on('sftp', (accept, reject) => {
             console.log('Client SFTP session');
-            var openFiles = {};
-            var handleCount = 0;
-            var sftpStream = accept();
+            const openFiles = {};
+            let handleCount = 0;
+            const sftpStream = accept();
             sftpStream
-              .on('OPEN', function(reqid, filename, flags, attrs) {
-                if (filename !== '/tmp/foo.txt' || !(flags & OPEN_MODE.WRITE))
+              .on('OPEN', (reqid, filename, flags, attrs) => {
+                if (filename !== FILE || !(flags & OPEN_MODE.READ)) {
                   return sftpStream.status(reqid, STATUS_CODE.FAILURE);
-                var handle = new Buffer(4);
+                }
+                const handle = new Buffer(4);
                 openFiles[handleCount] = true;
                 handle.writeUInt32BE(handleCount++, 0, true);
                 sftpStream.handle(reqid, handle);
-                console.log('Opening file for write');
+                console.log('Opening file for read');
               })
-              .on('READ', function(reqid, handle, offset, data) {
+              .on('READ', (reqid, handle, offset, data) => {
                 console.log(
                   'Write to file at offset %d: %s',
                   offset,
                   inspected
                 );
               })
-              .on('WRITE', function(reqid, handle, offset, data) {
+              .on('WRITE', (reqid, handle, offset, data) => {
                 if (
                   handle.length !== 4 ||
                   !openFiles[handle.readUInt32BE(0, true)]
-                )
+                ) {
                   return sftpStream.status(reqid, STATUS_CODE.FAILURE);
+                }
                 sftpStream.status(reqid, STATUS_CODE.OK);
-                var inspected = require('util').inspect(data);
+                const inspected = require('util').inspect(data);
                 console.log(
                   'Write to file at offset %d: %s',
                   offset,
                   inspected
                 );
               })
-              .on('CLOSE', function(reqid, handle) {
-                var fnum;
+              .on('CLOSE', (reqid, handle) => {
+                let fnum;
                 if (
                   handle.length !== 4 ||
                   !openFiles[(fnum = handle.readUInt32BE(0, true))]
-                )
+                ) {
                   return sftpStream.status(reqid, STATUS_CODE.FAILURE);
+                }
                 delete openFiles[fnum];
                 sftpStream.status(reqid, STATUS_CODE.OK);
                 console.log('Closing file');
@@ -88,16 +97,11 @@ new ssh2.Server(
           });
         });
       })
-      .on('end', function() {
-        console.log('Client disconnected');
-      });
+      .on('end', () => console.log('Client disconnected'));
   }
-).listen(
-  PORT,
-  /*'127.0.0.1',*/ function() {
-    console.log('Listening on port ' + this.address().port);
-  }
-);
+).listen(PORT, function() {
+  console.log('Listening on port ' + this.address().port);
+});
 
 test('has name', t => {
   const scheme = new SFTPScheme();
@@ -117,8 +121,7 @@ test('default port', t => {
 test('get', async t => {
   const scheme = new SFTPScheme();
   const content = await scheme.get(
-    `sftp://${USER}:${PASSWORD}@localhost:${PORT}/` +
-      path.join(__dirname, '..', 'tests', 'sftp-test.js')
+    `sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`
   );
 
   t.is(content, 'XXX');
