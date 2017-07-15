@@ -47,7 +47,7 @@ export default class SFTPScheme extends URLScheme {
       const sftp = new Client();
 
       const co = {
-        host: url.host,
+        host: url.hostname,
         port: url.port || this.constructor.defaultPort
       };
 
