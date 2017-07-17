@@ -32,6 +32,14 @@ export default class SFTPScheme extends URLScheme {
     return true;
   }
 
+  constructor(options = {}) {
+    super();
+
+    if (options.privateKey !== undefined) {
+      Object.defineProperty(this, 'privateKey', { value: options.privateKey });
+    }
+  }
+
   /**
    * Creates a readable stream for the content of th file associated to a given file URL
    * @param {string} url of the a file
@@ -47,6 +55,7 @@ export default class SFTPScheme extends URLScheme {
       const sftp = new Client();
 
       const co = {
+        privateKey: this.privateKey,
         host: url.hostname,
         port: url.port || this.constructor.defaultPort
       };
