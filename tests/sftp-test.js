@@ -33,12 +33,14 @@ test.before('start SFTP server', async t => {
 });
 
 test('get', async t => {
+  const context = undefined;
   const scheme = new SFTPScheme({
     privateKey: fs.readFileSync(
       path.join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
   const content = await scheme.get(
+    context,
     new URL(`sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`)
   );
 

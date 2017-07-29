@@ -38,12 +38,13 @@ export default class SFTPScheme extends URLScheme {
 
   /**
    * Creates a readable stream for the content of th file associated to a given file URL
+   * @param context {Context} execution context
    * @param url {URL} of the a file
    * @param [options] {object|string} passed as options to fs.createReadStream()
    * @returns {Promise}
    * @fulfil {ReadableStream} - of the file content
    */
-  async get(url, options) {
+  async get(context, url, options) {
     const sftp = new Client();
 
     const co = {
