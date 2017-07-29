@@ -1,7 +1,7 @@
 import test from 'ava';
 import SFTPScheme from '../src/sftp-scheme';
 
-const url = require('url');
+const { URL } = require('url');
 const path = require('path');
 const fs = require('fs');
 const ssh2 = require('ssh2');
@@ -39,7 +39,7 @@ test('get', async t => {
     )
   });
   const content = await scheme.get(
-    `sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`
+    new URL(`sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`)
   );
 
   t.is(content, 'XXX');

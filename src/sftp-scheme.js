@@ -2,10 +2,6 @@ import { URLScheme } from 'url-resolver-fs';
 const Client = require('ssh2-sftp-client');
 const { URL } = require('url');
 
-function invalidURLError(url) {
-  Promise.reject(new Error(`Invalid sftp url: ${url}`));
-}
-
 /**
  * URLScheme for sftp access
  */
@@ -42,36 +38,29 @@ export default class SFTPScheme extends URLScheme {
 
   /**
    * Creates a readable stream for the content of th file associated to a given file URL
-   * @param {string} url of the a file
-   * @param {object|string} [options] passed as options to fs.createReadStream()
+   * @param url {URL} of the a file
+   * @param [options] {object|string} passed as options to fs.createReadStream()
    * @returns {Promise}
    * @fulfil {ReadableStream} - of the file content
    */
   async get(url, options) {
-    const m = url.match(/^sftp:\/\/(.*)/);
+    const sftp = new Client();
 
-    if (m) {
-      url = new URL(url);
-      const sftp = new Client();
+    const co = {
+      privateKey: this.privateKey,
+      host: url.hostname,
+      port: url.port || this.constructor.defaultPort
+    };
 
-      const co = {
-        privateKey: this.privateKey,
-        host: url.hostname,
-        port: url.port || this.constructor.defaultPort
-      };
-
-      if (url.username !== undefined) {
-        co.username = url.username;
-      }
-      if (url.password !== undefined) {
-        co.password = url.password;
-      }
-
-      const conn = await sftp.connect(co);
-
-      return conn.get(url.pathname);
+    if (url.username !== undefined) {
+      co.username = url.username;
+    }
+    if (url.password !== undefined) {
+      co.password = url.password;
     }
 
-    return invalidURLError(url);
+    const conn = await sftp.connect(co);
+
+    return conn.get(url.pathname);
   }
 }
