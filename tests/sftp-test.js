@@ -5,6 +5,8 @@ const { URL } = require('url');
 const path = require('path');
 const fs = require('fs');
 const ssh2 = require('ssh2');
+const streamEqual = require('stream-equal');
+
 const OPEN_MODE = ssh2.SFTP_OPEN_MODE;
 const STATUS_CODE = ssh2.SFTP_STATUS_CODE;
 
@@ -32,19 +34,28 @@ test.before('start SFTP server', async t => {
   return createSFTPServer();
 });
 
-test('get', async t => {
+test.cb('get', t => {
+  t.plan(1);
+
   const context = undefined;
   const scheme = new SFTPScheme({
     privateKey: fs.readFileSync(
       path.join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
-  const content = await scheme.get(
-    context,
-    new URL(`sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`)
-  );
+  scheme
+    .get(
+      context,
+      new URL(`sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`)
+    )
+    .then(content => {
+      streamEqual(fs.createReadStream(FILE), content, (err, equal) => {
+        t.truthy(equal);
+        t.end();
+      });
+    });
 
-  t.is(content, 'XXX');
+  //t.is(content, 'XXX');
 });
 
 function createSFTPServer() {
@@ -58,7 +69,7 @@ function createSFTPServer() {
         ]
       },
       function(client) {
-        console.log('Client connected!');
+        //console.log('Client connected!');
 
         client
           .on('authentication', ctx => {
@@ -73,12 +84,12 @@ function createSFTPServer() {
             }
           })
           .on('ready', () => {
-            console.log('Client authenticated!');
+            //console.log('Client authenticated!');
 
             client.on('session', (accept, reject) => {
               const session = accept();
 
-              console.log('Client SSH session');
+              //console.log('Client SSH session');
 
               session.on('sftp', (accept, reject) => {
                 console.log('Client SFTP session');
@@ -96,12 +107,14 @@ function createSFTPServer() {
                     sftpStream.handle(reqid, handle);
                     console.log('Opening file for read');
                   })
-                  .on('READ', (reqid, handle, offset, data) => {
+                  .on('READ', (reqid, handle, offset, length) => {
                     console.log(
-                      'Write to file at offset %d: %s',
+                      'READ from file at offset %d length %d',
                       offset,
-                      inspected
+                      length
                     );
+                    const buffer = Buffer.alloc(length);
+                    return sftpStream.data(reqid, buffer);
                   })
                   .on('WRITE', (reqid, handle, offset, data) => {
                     if (

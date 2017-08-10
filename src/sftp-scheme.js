@@ -48,6 +48,14 @@ export default class SFTPScheme extends URLScheme {
     const sftp = new Client();
 
     const co = {
+      /*algorithms: {
+        serverHostKey: ['ssh-rsa', 'ssh-dss']
+      },
+      debug: console.log,
+      hostVerifier(host, cb) {
+        console.log(host);
+        cb(undfined);
+      },*/
       privateKey: this.privateKey,
       host: url.hostname,
       port: url.port || this.constructor.defaultPort
@@ -62,6 +70,6 @@ export default class SFTPScheme extends URLScheme {
 
     const conn = await sftp.connect(co);
 
-    return conn.get(url.pathname);
+    return sftp.get(url.pathname);
   }
 }
