@@ -6,7 +6,6 @@ const path = require('path');
 const fs = require('fs');
 const ssh2 = require('ssh2');
 const streamEqual = require('stream-equal');
-
 const OPEN_MODE = ssh2.SFTP_OPEN_MODE;
 const STATUS_CODE = ssh2.SFTP_STATUS_CODE;
 
@@ -54,8 +53,6 @@ test.cb('get', t => {
         t.end();
       });
     });
-
-  //t.is(content, 'XXX');
 });
 
 function createSFTPServer() {
@@ -84,20 +81,19 @@ function createSFTPServer() {
             }
           })
           .on('ready', () => {
-            //console.log('Client authenticated!');
-
             client.on('session', (accept, reject) => {
               const session = accept();
-
-              //console.log('Client SSH session');
-
               session.on('sftp', (accept, reject) => {
-                console.log('Client SFTP session');
+                //console.log('Client SFTP session');
                 const openFiles = {};
                 let handleCount = 0;
+                let fd;
+
                 const sftpStream = accept();
                 sftpStream
                   .on('OPEN', (reqid, filename, flags, attrs) => {
+                    console.log(`Opening ${filename}`);
+
                     if (filename !== FILE || !(flags & OPEN_MODE.READ)) {
                       return sftpStream.status(reqid, STATUS_CODE.FAILURE);
                     }
@@ -105,7 +101,7 @@ function createSFTPServer() {
                     openFiles[handleCount] = true;
                     handle.writeUInt32BE(handleCount++, 0, true);
                     sftpStream.handle(reqid, handle);
-                    console.log('Opening file for read');
+                    fd = fs.openSync(filename, 'r');
                   })
                   .on('READ', (reqid, handle, offset, length) => {
                     console.log(
@@ -113,8 +109,23 @@ function createSFTPServer() {
                       offset,
                       length
                     );
+
+                    if (offset >= 5119) {
+                      return sftpStream.status(reqid, STATUS_CODE.EOF);
+                    }
+
                     const buffer = Buffer.alloc(length);
-                    return sftpStream.data(reqid, buffer);
+                    fs.read(
+                      fd,
+                      buffer,
+                      0,
+                      length,
+                      0,
+                      (err, bytesRead, buffer) => {
+                        console.log(`read done ${bytesRead}`);
+                        sftpStream.data(reqid, buffer.slice(0, bytesRead));
+                      }
+                    );
                   })
                   .on('WRITE', (reqid, handle, offset, data) => {
                     if (
