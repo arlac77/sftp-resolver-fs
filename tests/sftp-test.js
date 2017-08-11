@@ -55,6 +55,23 @@ test.cb('get', t => {
     });
 });
 
+/*
+test('stat', async t => {
+  const context = undefined;
+  const scheme = new SFTPScheme({
+    privateKey: fs.readFileSync(
+      path.join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
+    )
+  });
+  info = await scheme.stat(
+    context,
+    new URL(`sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`)
+  );
+
+  t.is(info, 7);
+});
+*/
+
 function createSFTPServer() {
   return new Promise((resolve, reject) =>
     new ssh2.Server(
@@ -102,6 +119,30 @@ function createSFTPServer() {
                     handle.writeUInt32BE(handleCount++, 0, true);
                     sftpStream.handle(reqid, handle);
                     fd = fs.openSync(filename, 'r');
+                  })
+                  .on('STAT', (reqid, handle) => {
+                    console.log('STAT');
+
+                    sftpStream.attrs(reqid, {
+                      mode: 0,
+                      uid: 0,
+                      gid: 0,
+                      size: 5119,
+                      atime: 0,
+                      mtime: 0
+                    });
+                  })
+                  .on('FSTAT', (reqid, handle) => {
+                    console.log('FSTAT');
+
+                    sftpStream.attrs(reqid, {
+                      mode: 0,
+                      uid: 0,
+                      gid: 0,
+                      size: 5119,
+                      atime: 0,
+                      mtime: 0
+                    });
                   })
                   .on('READ', (reqid, handle, offset, length) => {
                     console.log(
@@ -152,7 +193,6 @@ function createSFTPServer() {
                     }
                     delete openFiles[fnum];
                     sftpStream.status(reqid, STATUS_CODE.OK);
-                    console.log('Closing file');
                   });
               });
             });

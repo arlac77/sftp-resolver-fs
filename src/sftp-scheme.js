@@ -36,26 +36,10 @@ export default class SFTPScheme extends URLScheme {
     }
   }
 
-  /**
-   * Creates a readable stream for the content of th file associated to a given file URL
-   * @param context {Context} execution context
-   * @param url {URL} of the a file
-   * @param [options] {object|string} passed as options to fs.createReadStream()
-   * @returns {Promise}
-   * @fulfil {ReadableStream} - of the file content
-   */
-  async get(context, url, options) {
+  async connect(context, url, options) {
     const sftp = new Client();
 
     const co = {
-      /*algorithms: {
-        serverHostKey: ['ssh-rsa', 'ssh-dss']
-      },
-      debug: console.log,
-      hostVerifier(host, cb) {
-        console.log(host);
-        cb(undfined);
-      },*/
       privateKey: this.privateKey,
       host: url.hostname,
       port: url.port || this.constructor.defaultPort
@@ -68,8 +52,36 @@ export default class SFTPScheme extends URLScheme {
       co.password = url.password;
     }
 
-    const conn = await sftp.connect(co);
+    await sftp.connect(co);
 
+    return sftp;
+  }
+
+  /**
+   * Creates a readable stream for the content of th file associated to a given file URL
+   * @param context {Context} execution context
+   * @param url {URL} of the a file
+   * @param [options] {object|string} passed as options to fs.createReadStream()
+   * @returns {Promise}
+   * @fulfil {ReadableStream} - of the file content
+   */
+  async get(context, url, options) {
+    const sftp = await this.connect(context, url, options);
     return sftp.get(url.pathname);
+  }
+
+  async put(context, url, stream, options) {
+    const sftp = await this.connect(context, url, options);
+    return sftp.put(stream, url.pathname);
+  }
+
+  async stat(context, url, options) {
+    const sftp = await this.connect(context, url, options);
+    return sftp.list(url.pathname);
+  }
+
+  async delete(context, url, options) {
+    const sftp = await this.connect(context, url, options);
+    return sftp.delete(url.pathname);
   }
 }
