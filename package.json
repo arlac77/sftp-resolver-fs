@@ -32,9 +32,7 @@
   "description": "resolves sftp urls",
   "main": "dist/sftp-scheme.js",
   "module": "src/sftp-scheme.js",
-  "keywords": [
-    "npm-package-template"
-  ],
+  "keywords": ["url", "sftp"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arlac77/sftp-resolver-fs.git"
@@ -58,23 +56,13 @@
     "space": true
   },
   "ava": {
-    "files": [
-      "build/test-bundle.js"
-    ],
-    "presets": [
-      "stage-3"
-    ],
-    "require": [
-      "babel-register"
-    ]
+    "files": ["build/test-bundle.js"],
+    "presets": ["stage-3"],
+    "require": ["babel-register"]
   },
   "nyc": {
-    "include": [
-      "build/test-bundle.js"
-    ],
-    "reporter": [
-      "lcov"
-    ],
+    "include": ["build/test-bundle.js"],
+    "reporter": ["lcov"],
     "report-dir": "./build/coverage"
   },
   "template": {
