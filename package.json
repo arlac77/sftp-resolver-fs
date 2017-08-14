@@ -17,7 +17,7 @@
     "jsdoc-to-markdown": "^3.0.0",
     "markdown-doctest": "^0.9.1",
     "nyc": "^11.1.0",
-    "rollup": "^0.47.2",
+    "rollup": "^0.47.4",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-multi-entry": "^2.0.1",
     "semantic-release": "^6.3.6",
@@ -32,7 +32,10 @@
   "description": "resolves sftp urls",
   "main": "dist/sftp-scheme.js",
   "module": "src/sftp-scheme.js",
-  "keywords": ["url", "sftp"],
+  "keywords": [
+    "url",
+    "sftp"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arlac77/sftp-resolver-fs.git"
@@ -56,13 +59,23 @@
     "space": true
   },
   "ava": {
-    "files": ["build/test-bundle.js"],
-    "presets": ["stage-3"],
-    "require": ["babel-register"]
+    "files": [
+      "build/test-bundle.js"
+    ],
+    "presets": [
+      "stage-3"
+    ],
+    "require": [
+      "babel-register"
+    ]
   },
   "nyc": {
-    "include": ["build/test-bundle.js"],
-    "reporter": ["lcov"],
+    "include": [
+      "build/test-bundle.js"
+    ],
+    "reporter": [
+      "lcov"
+    ],
     "report-dir": "./build/coverage"
   },
   "template": {
