@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/arlac77/sftp-resolver-fs#readme",
   "dependencies": {
-    "ssh2-sftp-client": "^1.1.0",
+    "ssh2-sftp-client": "^2.0.0",
     "url-resolver-fs": "^5.2.2"
   },
   "contributors": [
