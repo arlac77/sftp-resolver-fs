@@ -19,17 +19,7 @@ sftp-resolver-fs
 -------------------
 resolves sftp urls
 
-# API Reference
-
-* <a name="get"></a>
-
-## get() ⇒ <code>string</code>
-Scheme name if 'sftp'
-
-**Kind**: global function  
-**Returns**: <code>string</code> - 'sftp'  
-
-* * *
+# API
 
 # install
 
