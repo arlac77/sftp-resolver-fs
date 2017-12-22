@@ -4,6 +4,8 @@ const { URL } = require('url');
 
 /**
  * URLScheme for sftp access
+ * @param {Object} options
+ * @param {UInt8Array} options.privateKey
  */
 export default class SFTPScheme extends URLScheme {
   /**
@@ -59,11 +61,10 @@ export default class SFTPScheme extends URLScheme {
 
   /**
    * Creates a readable stream for the content of th file associated to a given file URL
-   * @param context {Context} execution context
-   * @param url {URL} of the a file
-   * @param [options] {object|string} passed as options to fs.createReadStream()
-   * @returns {Promise}
-   * @fulfil {ReadableStream} - of the file content
+   * @param {Context} context execution context
+   * @param {URL} url of the a file
+   * @param {Object|string} options passed as options to fs.createReadStream()
+   * @returns {ReadableStream} of the file content
    */
   async get(context, url, options) {
     const sftp = await this.connect(context, url, options);
