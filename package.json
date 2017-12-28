@@ -1,5 +1,20 @@
 {
   "name": "sftp-resolver-fs",
+  "version": "0.0.0-semantic-release",
+  "main": "dist/sftp-scheme.js",
+  "module": "src/sftp-scheme.js",
+  "description": "resolves sftp urls",
+  "keywords": [
+    "url",
+    "sftp"
+  ],
+  "contributors": [
+    {
+      "name": "Markus Felten",
+      "email": "markus.felten@gmx.de"
+    }
+  ],
+  "license": "BSD-2-Clause",
   "scripts": {
     "cover": "nyc --temp-directory build/nyc ava",
     "precover": "rollup -c tests/rollup.config.js",
@@ -10,6 +25,10 @@
     "docs": "documentation readme src/sftp-scheme.js --section=API",
     "semantic-release": "semantic-release",
     "lint": "documentation lint src/sftp-scheme.js"
+  },
+  "dependencies": {
+    "ssh2-sftp-client": "^2.0.0",
+    "url-resolver-fs": "^5.2.2"
   },
   "devDependencies": {
     "ava": "^0.24.0",
@@ -26,14 +45,6 @@
   "engines": {
     "node": ">=8.9.3"
   },
-  "version": "0.0.0-semantic-release",
-  "description": "resolves sftp urls",
-  "main": "dist/sftp-scheme.js",
-  "module": "src/sftp-scheme.js",
-  "keywords": [
-    "url",
-    "sftp"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arlac77/sftp-resolver-fs.git"
@@ -42,20 +53,6 @@
     "url": "https://github.com/arlac77/sftp-resolver-fs/issues"
   },
   "homepage": "https://github.com/arlac77/sftp-resolver-fs#readme",
-  "dependencies": {
-    "ssh2-sftp-client": "^2.0.0",
-    "url-resolver-fs": "^5.2.2"
-  },
-  "contributors": [
-    {
-      "name": "Markus Felten",
-      "email": "markus.felten@gmx.de"
-    }
-  ],
-  "license": "BSD-2-Clause",
-  "xo": {
-    "space": true
-  },
   "ava": {
     "files": [
       "build/*-test.js"
@@ -75,6 +72,9 @@
       "lcov"
     ],
     "report-dir": "./build/coverage"
+  },
+  "xo": {
+    "space": true
   },
   "template": {
     "repository": {
