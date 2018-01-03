@@ -39,7 +39,6 @@
     "semantic-release": "^11.1.0",
     "ssh2": "^0.5.5",
     "stream-equal": "^1.0.1",
-    "xo": "^0.19.0",
     "documentation": "^5.3.5"
   },
   "engines": {
