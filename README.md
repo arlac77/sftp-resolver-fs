@@ -41,7 +41,7 @@ URLScheme for sftp access
 **Parameters**
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
-    -   `options.privateKey` **[UInt8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)** 
+    -   `options.privateKey` **([UInt8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [Buffer](https://nodejs.org/api/buffer.html))** 
 
 ### get
 
@@ -49,11 +49,10 @@ Creates a readable stream for the content of th file associated to a given file 
 
 **Parameters**
 
--   `context` **Context** execution context
--   `url` **[URL](https://developer.mozilla.org/docs/Web/API/URL/URL)** of the a file
--   `options` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** passed as options to fs.createReadStream()
+-   `url` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** of the a file
+-   `options` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?** passed as options to fs.createReadStream()
 
-Returns **ReadableStream** of the file content
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;ReadableStream>** of the file content
 
 ### name
 

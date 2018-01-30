@@ -2,10 +2,14 @@ import { URLScheme } from 'url-resolver-fs';
 const Client = require('ssh2-sftp-client');
 const { URL } = require('url');
 
+function invalidURLError(url) {
+  Promise.reject(new Error(`Invalid sftp url: ${url}`));
+}
+
 /**
  * URLScheme for sftp access
  * @param {Object} options
- * @param {UInt8Array} options.privateKey
+ * @param {UInt8Array|Buffer} options.privateKey
  */
 export default class SFTPScheme extends URLScheme {
   /**
@@ -38,51 +42,37 @@ export default class SFTPScheme extends URLScheme {
     }
   }
 
-  async connect(context, url, options) {
-    const sftp = new Client();
-
-    const co = {
-      privateKey: this.privateKey,
-      host: url.hostname,
-      port: url.port || this.constructor.defaultPort
-    };
-
-    if (url.username !== undefined) {
-      co.username = url.username;
-    }
-    if (url.password !== undefined) {
-      co.password = url.password;
-    }
-
-    await sftp.connect(co);
-
-    return sftp;
-  }
-
   /**
    * Creates a readable stream for the content of th file associated to a given file URL
-   * @param {Context} context execution context
-   * @param {URL} url of the a file
-   * @param {Object|string} options passed as options to fs.createReadStream()
-   * @returns {ReadableStream} of the file content
+   * @param {string} url of the a file
+   * @param {Object|string} [options] passed as options to fs.createReadStream()
+   * @returns {Promise<ReadableStream>} of the file content
    */
-  async get(context, url, options) {
-    const sftp = await this.connect(context, url, options);
-    return sftp.get(url.pathname);
-  }
+  async get(url, options) {
+    const m = url.match(/^sftp:\/\/(.*)/);
 
-  async put(context, url, stream, options) {
-    const sftp = await this.connect(context, url, options);
-    return sftp.put(stream, url.pathname);
-  }
+    if (m) {
+      url = new URL(url);
+      const sftp = new Client();
 
-  async stat(context, url, options) {
-    const sftp = await this.connect(context, url, options);
-    return sftp.list(url.pathname);
-  }
+      const co = {
+        privateKey: this.privateKey,
+        host: url.hostname,
+        port: url.port || this.constructor.defaultPort
+      };
 
-  async delete(context, url, options) {
-    const sftp = await this.connect(context, url, options);
-    return sftp.delete(url.pathname);
+      if (url.username !== undefined) {
+        co.username = url.username;
+      }
+      if (url.password !== undefined) {
+        co.password = url.password;
+      }
+
+      const conn = await sftp.connect(co);
+
+      return conn.get(url.pathname);
+    }
+
+    return invalidURLError(url);
   }
 }
