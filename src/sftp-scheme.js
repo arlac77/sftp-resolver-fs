@@ -44,15 +44,13 @@ export default class SFTPScheme extends URLScheme {
 
   /**
    * Creates a readable stream for the content of th file associated to a given file URL
-   * @param {string} url of the a file
+   * @param {Context} context
+   * @param {URL} url of the a file
    * @param {Object|string} [options] passed as options to fs.createReadStream()
    * @returns {Promise<ReadableStream>} of the file content
    */
-  async get(url, options) {
-    const m = url.match(/^sftp:\/\/(.*)/);
-
-    if (m) {
-      url = new URL(url);
+  async get(context, url, options) {
+    if (url.protocol === 'sftp:') {
       const sftp = new Client();
 
       const co = {
@@ -61,12 +59,11 @@ export default class SFTPScheme extends URLScheme {
         port: url.port || this.constructor.defaultPort
       };
 
-      if (url.username !== undefined) {
-        co.username = url.username;
-      }
-      if (url.password !== undefined) {
-        co.password = url.password;
-      }
+      ['username', 'password'].forEach(p => {
+        if (url[p] !== undefined) {
+          co[p] = url[p];
+        }
+      });
 
       const conn = await sftp.connect(co);
 

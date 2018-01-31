@@ -29,9 +29,7 @@ test('default port', t => {
   t.is(scheme.defaultPort, 22);
 });
 
-test.before('start SFTP server', async t => {
-  return createSFTPServer();
-});
+test.before('start SFTP server', async t => createSFTPServer());
 
 test.cb('get', t => {
   t.plan(1);
@@ -42,12 +40,14 @@ test.cb('get', t => {
       path.join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
+
   scheme
     .get(
       context,
       new URL(`sftp://${USER}:${PASSWORD}@localhost:${PORT}${FILE}`)
     )
     .then(content => {
+      console.log(`get ${content}`);
       streamEqual(fs.createReadStream(FILE), content, (err, equal) => {
         t.truthy(equal);
         t.end();
