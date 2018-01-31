@@ -28,8 +28,8 @@
     "travis-deploy-once": "travis-deploy-once"
   },
   "dependencies": {
-    "ssh2-sftp-client": "^2.0.0",
-    "url-resolver-fs": "^5.2.2"
+    "ssh2-sftp-client": "^2.0.1",
+    "url-resolver-fs": "^5.2.5"
   },
   "devDependencies": {
     "ava": "^0.25.0",
