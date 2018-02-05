@@ -11,7 +11,7 @@ function invalidURLError(url) {
  * @param {Object} options
  * @param {UInt8Array|Buffer} options.privateKey
  */
-export default class SFTPScheme extends URLScheme {
+export class SFTPScheme extends URLScheme {
   /**
    * Scheme name if 'sftp'
    * @return {string} 'sftp'

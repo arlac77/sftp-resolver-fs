@@ -1,5 +1,5 @@
 import test from 'ava';
-import SFTPScheme from '../src/sftp-scheme';
+import { SFTPScheme } from '../src/sftp-scheme';
 
 const { URL } = require('url');
 const path = require('path');
