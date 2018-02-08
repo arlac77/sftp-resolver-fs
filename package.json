@@ -37,7 +37,7 @@
     "nyc": "^11.4.1",
     "rollup": "^0.55.3",
     "rollup-plugin-multi-entry": "^2.0.2",
-    "semantic-release": "^13.0.2",
+    "semantic-release": "^13.1.4",
     "ssh2": "^0.5.5",
     "stream-equal": "^1.0.1",
     "documentation": "^5.3.5",
