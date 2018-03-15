@@ -2,7 +2,7 @@ import test from 'ava';
 import { SFTPScheme } from '../src/sftp-scheme';
 
 const { URL } = require('url');
-const path = require('path');
+const { join } = require('path');
 const fs = require('fs');
 const ssh2 = require('ssh2');
 const streamEqual = require('stream-equal');
@@ -12,7 +12,7 @@ const STATUS_CODE = ssh2.SFTP_STATUS_CODE;
 const PORT = 12345;
 const USER = 'abc';
 const PASSWORD = 'secret';
-const FILE = path.join(__dirname, '..', 'tests', 'sftp-test.js');
+const FILE = join(__dirname, '..', 'tests', 'sftp-test.js');
 
 test('has name', t => {
   const scheme = new SFTPScheme();
@@ -37,7 +37,7 @@ test.cb('get', t => {
   const context = undefined;
   const scheme = new SFTPScheme({
     privateKey: fs.readFileSync(
-      path.join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
+      join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
 
@@ -60,7 +60,7 @@ test('stat', async t => {
   const context = undefined;
   const scheme = new SFTPScheme({
     privateKey: fs.readFileSync(
-      path.join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
+      join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
   info = await scheme.stat(
@@ -78,7 +78,7 @@ function createSFTPServer() {
       {
         hostKeys: [
           fs.readFileSync(
-            path.join(__dirname, '..', 'tests', 'fixtures', 'host.key')
+            join(__dirname, '..', 'tests', 'fixtures', 'host.key')
           )
         ]
       },
