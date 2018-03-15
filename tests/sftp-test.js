@@ -82,32 +82,69 @@ function createSFTPServer() {
           )
         ]
       },
-      function(client) {
-        //console.log('Client connected!');
+      client => {
+        console.log('Client connected');
 
         client
           .on('authentication', ctx => {
+            console.log(
+              `authentication ${ctx.method} ${ctx.username} ${ctx.password}`
+            );
+
             if (
               ctx.method === 'password' &&
               ctx.username === USER &&
               ctx.password === PASSWORD
             ) {
+              console.log('accept');
               ctx.accept();
+            } else if (
+              ctx.method === 'publickey' &&
+              ctx.key.algo === pubKey.fulltype // &&
+              //buffersEqual(ctx.key.data, pubKey.public)
+            ) {
+              if (ctx.signature) {
+                const verifier = crypto.createVerify(ctx.sigAlgo);
+                verifier.update(ctx.blob);
+                if (verifier.verify(pubKey.publicOrig, ctx.signature))
+                  ctx.accept();
+                else ctx.reject();
+              } else {
+                // if no signature present, that means the client is just checking
+                // the validity of the given public key
+                ctx.accept();
+              }
             } else {
               ctx.reject();
             }
           })
           .on('ready', () => {
+            console.log('ready');
+
             client.on('session', (accept, reject) => {
               const session = accept();
               session.on('sftp', (accept, reject) => {
-                //console.log('Client SFTP session');
+                console.log('Client SFTP session');
                 const openFiles = {};
                 let handleCount = 0;
                 let fd;
 
                 const sftpStream = accept();
                 sftpStream
+                  .on('OPENDIR', () => console.log('OPENDIR'))
+                  .on('READDIR', () => console.log('READDIR'))
+                  .on('LSTAT', () => console.log('LSTAT'))
+                  .on('STAT', () => console.log('STAT'))
+                  .on('REMOVE', () => console.log('REMOVE'))
+                  .on('RMDIR', () => console.log('RMDIR'))
+                  .on('REALPATH', () => console.log('REALPATH'))
+                  .on('READLINK', () => console.log('READLINK'))
+                  .on('SETSTAT', () => console.log('SETSTAT'))
+                  .on('MKDIR', () => console.log('MKDIR'))
+                  .on('RENAME', () => console.log('RENAME'))
+                  .on('SYMLINK', () => console.log('SYMLINK'))
+                  .on('RENAME', () => console.log('RENAME'))
+
                   .on('OPEN', (reqid, filename, flags, attrs) => {
                     console.log(`Opening ${filename}`);
 
@@ -184,6 +221,8 @@ function createSFTPServer() {
                     );
                   })
                   .on('CLOSE', (reqid, handle) => {
+                    console.log('CLOSE');
+
                     let fnum;
                     if (
                       handle.length !== 4 ||
