@@ -21,7 +21,7 @@ export class SFTPScheme extends URLScheme {
   }
 
   /**
-   * @return {number} 22 the https default port
+   * @return {number} 22 the sftp default port
    */
   static get defaultPort() {
     return 22;
