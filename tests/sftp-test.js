@@ -100,7 +100,8 @@ function createSFTPServer() {
               ctx.accept();
             } else if (
               ctx.method === 'publickey' &&
-              ctx.key.algo === pubKey.fulltype // &&
+              0 // &&
+              //ctx.key.algo === pubKey.fulltype // &&
               //buffersEqual(ctx.key.data, pubKey.public)
             ) {
               if (ctx.signature) {
@@ -131,13 +132,16 @@ function createSFTPServer() {
 
                 const sftpStream = accept();
                 sftpStream
+                  .on('error', () => console.log('error'))
+                  .on('ready', () => console.log('ready'))
+
                   .on('OPENDIR', () => console.log('OPENDIR'))
                   .on('READDIR', () => console.log('READDIR'))
                   .on('LSTAT', () => console.log('LSTAT'))
                   .on('STAT', () => console.log('STAT'))
                   .on('REMOVE', () => console.log('REMOVE'))
                   .on('RMDIR', () => console.log('RMDIR'))
-                  .on('REALPATH', () => console.log('REALPATH'))
+                  .on('REALPATH', a => console.log(`REALPATH ${a}`))
                   .on('READLINK', () => console.log('READLINK'))
                   .on('SETSTAT', () => console.log('SETSTAT'))
                   .on('MKDIR', () => console.log('MKDIR'))
@@ -145,7 +149,7 @@ function createSFTPServer() {
                   .on('SYMLINK', () => console.log('SYMLINK'))
                   .on('RENAME', () => console.log('RENAME'))
 
-                  .on('OPEN', (reqid, filename, flags, attrs) => {
+                  .on('open', (reqid, filename, flags, attrs) => {
                     console.log(`Opening ${filename}`);
 
                     if (filename !== FILE || !(flags & OPEN_MODE.READ)) {
@@ -233,6 +237,8 @@ function createSFTPServer() {
                     delete openFiles[fnum];
                     sftpStream.status(reqid, STATUS_CODE.OK);
                   });
+
+                //console.log(sftpStream);
               });
             });
           })

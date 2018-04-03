@@ -13,7 +13,7 @@ function invalidURLError(url) {
  */
 export class SFTPScheme extends URLScheme {
   /**
-   * Scheme name if 'sftp'
+   * Scheme name is 'sftp'
    * @return {string} 'sftp'
    */
   static get name() {
@@ -67,7 +67,13 @@ export class SFTPScheme extends URLScheme {
 
       const conn = await sftp.connect(co);
 
-      return conn.get(url.pathname);
+      //console.log(conn);
+      console.log(`1 get: ${url.pathname}`);
+
+      const r = conn.get(url.pathname);
+
+      console.log(`2 get: ${r}`);
+      return r;
     }
 
     return invalidURLError(url);
