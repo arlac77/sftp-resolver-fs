@@ -41,7 +41,7 @@
     "ssh2": "^0.6.0",
     "stream-equal": "^1.1.1",
     "documentation": "^6.3.2",
-    "travis-deploy-once": "^4.4.1"
+    "travis-deploy-once": "^5.0.0"
   },
   "engines": {
     "node": ">=8.11"
