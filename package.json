@@ -38,7 +38,7 @@
     "nyc": "^11.7.3",
     "rollup": "^0.58.2",
     "rollup-plugin-multi-entry": "^2.0.2",
-    "semantic-release": "^15.4.0",
+    "semantic-release": "^15.4.1",
     "ssh2": "^0.6.1",
     "stream-equal": "^1.1.1",
     "travis-deploy-once": "^5.0.0"
