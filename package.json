@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "ssh2-sftp-client": "^2.2.1",
-    "url-resolver-fs": "^5.2.8"
+    "url-resolver-fs": "^6.0.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
