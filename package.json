@@ -4,7 +4,10 @@
   "main": "dist/sftp-scheme.js",
   "module": "src/sftp-scheme.js",
   "description": "resolves sftp urls",
-  "keywords": ["url", "sftp"],
+  "keywords": [
+    "url",
+    "sftp"
+  ],
   "contributors": [
     {
       "name": "Markus Felten",
@@ -52,13 +55,23 @@
   },
   "homepage": "https://github.com/arlac77/sftp-resolver-fs#readme",
   "ava": {
-    "files": ["build/*-test.js"],
-    "presets": ["env"],
-    "require": ["babel-register"]
+    "files": [
+      "build/*-test.js"
+    ],
+    "presets": [
+      "env"
+    ],
+    "require": [
+      "babel-register"
+    ]
   },
   "nyc": {
-    "include": ["build/*-test.js"],
-    "reporter": ["lcov"],
+    "include": [
+      "build/*-test.js"
+    ],
+    "reporter": [
+      "lcov"
+    ],
     "report-dir": "./build/coverage"
   },
   "xo": {
