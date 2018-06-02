@@ -1,6 +1,9 @@
 {
   "name": "sftp-resolver-fs",
   "version": "0.0.0-semantic-release",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/sftp-scheme.js",
   "module": "src/sftp-scheme.js",
   "description": "resolves sftp urls",
