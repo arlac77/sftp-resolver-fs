@@ -26,7 +26,9 @@ resolves sftp urls
 ### Table of Contents
 
 -   [SFTPScheme](#sftpscheme)
+    -   [Parameters](#parameters)
     -   [get](#get)
+        -   [Parameters](#parameters-1)
     -   [name](#name)
     -   [defaultPort](#defaultport)
     -   [isSecure](#issecure)
@@ -37,7 +39,7 @@ resolves sftp urls
 
 URLScheme for sftp access
 
-**Parameters**
+### Parameters
 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
     -   `options.privateKey` **([UInt8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) \| [Buffer](https://nodejs.org/api/buffer.html))** 
@@ -46,7 +48,7 @@ URLScheme for sftp access
 
 Creates a readable stream for the content of th file associated to a given file URL
 
-**Parameters**
+#### Parameters
 
 -   `context` **Context** 
 -   `url` **[URL](https://developer.mozilla.org/docs/Web/API/URL/URL)** of the a file
@@ -56,13 +58,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### name
 
-Scheme name if 'sftp'
+Scheme name is 'sftp'
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 'sftp'
 
 ### defaultPort
 
-Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 22 the https default port
+Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 22 the sftp default port
 
 ### isSecure
 
