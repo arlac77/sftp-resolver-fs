@@ -1,6 +1,6 @@
 import { URLScheme } from 'url-resolver-fs';
-const Client = require('ssh2-sftp-client');
-const { URL } = require('url');
+import { URL } from 'url';
+import Client from 'ssh2-sftp-client';
 
 function invalidURLError(url) {
   Promise.reject(new Error(`Invalid sftp url: ${url}`));

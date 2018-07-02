@@ -1,9 +1,9 @@
 import test from 'ava';
 import { SFTPScheme } from '../src/sftp-scheme';
+import { URL } from 'url';
+import { join } from 'path';
+import { readFileSync, createReadStream, openSync, read } from 'fs';
 
-const { URL } = require('url');
-const { join } = require('path');
-const fs = require('fs');
 const ssh2 = require('ssh2');
 const streamEqual = require('stream-equal');
 const OPEN_MODE = ssh2.SFTP_OPEN_MODE;
@@ -36,7 +36,7 @@ test.cb('get', t => {
 
   const context = undefined;
   const scheme = new SFTPScheme({
-    privateKey: fs.readFileSync(
+    privateKey: readFileSync(
       join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
@@ -48,7 +48,7 @@ test.cb('get', t => {
     )
     .then(content => {
       console.log(`get ${content}`);
-      streamEqual(fs.createReadStream(FILE), content, (err, equal) => {
+      streamEqual(createReadStream(FILE), content, (err, equal) => {
         t.truthy(equal);
         t.end();
       });
@@ -59,7 +59,7 @@ test.cb('get', t => {
 test('stat', async t => {
   const context = undefined;
   const scheme = new SFTPScheme({
-    privateKey: fs.readFileSync(
+    privateKey: readFileSync(
       join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
@@ -77,9 +77,7 @@ function createSFTPServer() {
     new ssh2.Server(
       {
         hostKeys: [
-          fs.readFileSync(
-            join(__dirname, '..', 'tests', 'fixtures', 'host.key')
-          )
+          readFileSync(join(__dirname, '..', 'tests', 'fixtures', 'host.key'))
         ]
       },
       client => {
@@ -159,7 +157,7 @@ function createSFTPServer() {
                     openFiles[handleCount] = true;
                     handle.writeUInt32BE(handleCount++, 0, true);
                     sftpStream.handle(reqid, handle);
-                    fd = fs.openSync(filename, 'r');
+                    fd = openSync(filename, 'r');
                   })
                   .on('STAT', (reqid, handle) => {
                     console.log('STAT');
@@ -197,17 +195,10 @@ function createSFTPServer() {
                     }
 
                     const buffer = Buffer.alloc(length);
-                    fs.read(
-                      fd,
-                      buffer,
-                      0,
-                      length,
-                      0,
-                      (err, bytesRead, buffer) => {
-                        console.log(`read done ${bytesRead}`);
-                        sftpStream.data(reqid, buffer.slice(0, bytesRead));
-                      }
-                    );
+                    read(fd, buffer, 0, length, 0, (err, bytesRead, buffer) => {
+                      console.log(`read done ${bytesRead}`);
+                      sftpStream.data(reqid, buffer.slice(0, bytesRead));
+                    });
                   })
                   .on('WRITE', (reqid, handle, offset, data) => {
                     if (
