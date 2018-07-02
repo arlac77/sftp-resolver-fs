@@ -3,11 +3,8 @@ import { SFTPScheme } from '../src/sftp-scheme';
 import { URL } from 'url';
 import { join } from 'path';
 import { readFileSync, createReadStream, openSync, read } from 'fs';
-
-const ssh2 = require('ssh2');
-const streamEqual = require('stream-equal');
-const OPEN_MODE = ssh2.SFTP_OPEN_MODE;
-const STATUS_CODE = ssh2.SFTP_STATUS_CODE;
+import { Server, SFTP_OPEN_MODE, SFTP_STATUS_CODE } from 'ssh2';
+import streamEqual from 'stream-equal';
 
 const PORT = 12345;
 const USER = 'abc';
@@ -74,7 +71,7 @@ test('stat', async t => {
 
 function createSFTPServer() {
   return new Promise((resolve, reject) =>
-    new ssh2.Server(
+    new Server(
       {
         hostKeys: [
           readFileSync(join(__dirname, '..', 'tests', 'fixtures', 'host.key'))
@@ -150,8 +147,8 @@ function createSFTPServer() {
                   .on('open', (reqid, filename, flags, attrs) => {
                     console.log(`Opening ${filename}`);
 
-                    if (filename !== FILE || !(flags & OPEN_MODE.READ)) {
-                      return sftpStream.status(reqid, STATUS_CODE.FAILURE);
+                    if (filename !== FILE || !(flags & SFTP_OPEN_MODE.READ)) {
+                      return sftpStream.status(reqid, SFTP_STATUS_CODE.FAILURE);
                     }
                     const handle = new Buffer(4);
                     openFiles[handleCount] = true;
@@ -191,7 +188,7 @@ function createSFTPServer() {
                     );
 
                     if (offset >= 5119) {
-                      return sftpStream.status(reqid, STATUS_CODE.EOF);
+                      return sftpStream.status(reqid, SFTP_STATUS_CODE.EOF);
                     }
 
                     const buffer = Buffer.alloc(length);
@@ -205,9 +202,9 @@ function createSFTPServer() {
                       handle.length !== 4 ||
                       !openFiles[handle.readUInt32BE(0, true)]
                     ) {
-                      return sftpStream.status(reqid, STATUS_CODE.FAILURE);
+                      return sftpStream.status(reqid, SFTP_STATUS_CODE.FAILURE);
                     }
-                    sftpStream.status(reqid, STATUS_CODE.OK);
+                    sftpStream.status(reqid, SFTP_STATUS_CODE.OK);
                     const inspected = require('util').inspect(data);
                     console.log(
                       'Write to file at offset %d: %s',
@@ -223,10 +220,10 @@ function createSFTPServer() {
                       handle.length !== 4 ||
                       !openFiles[(fnum = handle.readUInt32BE(0, true))]
                     ) {
-                      return sftpStream.status(reqid, STATUS_CODE.FAILURE);
+                      return sftpStream.status(reqid, SFTP_STATUS_CODE.FAILURE);
                     }
                     delete openFiles[fnum];
-                    sftpStream.status(reqid, STATUS_CODE.OK);
+                    sftpStream.status(reqid, SFTP_STATUS_CODE.OK);
                   });
 
                 //console.log(sftpStream);
