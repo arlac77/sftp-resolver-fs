@@ -34,8 +34,24 @@ export class SFTPScheme extends URLScheme {
     return true;
   }
 
+  /**
+   * Extract options suitable for the constructor
+   * form the given set of environment variables
+   * @param {Object} env
+   * @return {Object} undefined if no suitable environment variables have been found
+   */
+  static optionsFromEnvironment(env) {
+    if (env !== undefined) {
+      if (env.SSH_AUTH_SOCK !== undefined) {
+        return { agent: env.SSH_AUTH_SOCK };
+      }
+    }
+
+    return undefined;
+  }
+
   constructor(options = {}) {
-    super();
+    super(options);
 
     if (options.privateKey !== undefined) {
       Object.defineProperty(this, 'privateKey', { value: options.privateKey });
@@ -55,6 +71,7 @@ export class SFTPScheme extends URLScheme {
 
       const co = {
         privateKey: this.privateKey,
+        agent: this.agent,
         host: url.hostname,
         port: url.port || this.constructor.defaultPort
       };

@@ -32,6 +32,8 @@ resolves sftp urls
     -   [name](#name)
     -   [defaultPort](#defaultport)
     -   [isSecure](#issecure)
+    -   [optionsFromEnvironment](#optionsfromenvironment)
+        -   [Parameters](#parameters-2)
 
 ## SFTPScheme
 
@@ -69,6 +71,17 @@ Returns **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 ### isSecure
 
 Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true
+
+### optionsFromEnvironment
+
+Extract options suitable for the constructor
+form the given set of environment variables
+
+#### Parameters
+
+-   `env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** undefined if no suitable environment variables have been found
 
 # install
 

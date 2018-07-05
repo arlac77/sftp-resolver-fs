@@ -28,7 +28,7 @@ test('default port', t => {
 
 test.before('start SFTP server', async t => createSFTPServer());
 
-test.cb('get', t => {
+test.cb.skip('get', t => {
   t.plan(1);
 
   const context = undefined;
