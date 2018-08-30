@@ -1,6 +1,5 @@
-import { URLScheme } from 'url-resolver-fs';
-import { URL } from 'url';
-import Client from 'ssh2-sftp-client';
+import { URLScheme } from "url-resolver-fs";
+import Client from "ssh2-sftp-client";
 
 function invalidURLError(url) {
   Promise.reject(new Error(`Invalid sftp url: ${url}`));
@@ -17,7 +16,7 @@ export class SFTPScheme extends URLScheme {
    * @return {string} 'sftp'
    */
   static get name() {
-    return 'sftp';
+    return "sftp";
   }
 
   /**
@@ -54,7 +53,7 @@ export class SFTPScheme extends URLScheme {
     super(options);
 
     if (options.privateKey !== undefined) {
-      Object.defineProperty(this, 'privateKey', { value: options.privateKey });
+      Object.defineProperty(this, "privateKey", { value: options.privateKey });
     }
   }
 
@@ -66,7 +65,7 @@ export class SFTPScheme extends URLScheme {
    * @returns {Promise<ReadableStream>} of the file content
    */
   async get(context, url, options) {
-    if (url.protocol === 'sftp:') {
+    if (url.protocol === "sftp:") {
       const sftp = new Client();
 
       const co = {
@@ -76,7 +75,7 @@ export class SFTPScheme extends URLScheme {
         port: url.port || this.constructor.defaultPort
       };
 
-      ['username', 'password'].forEach(p => {
+      ["username", "password"].forEach(p => {
         if (url[p] !== undefined) {
           co[p] = url[p];
         }
