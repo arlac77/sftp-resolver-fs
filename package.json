@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "ssh2-sftp-client": "^3.1.0",
-    "url-resolver-fs": "^7.3.5"
+    "url-resolver-fs": "^7.3.6"
   },
   "devDependencies": {
     "@babel/plugin-proposal-async-generator-functions": "^7.1.0",
