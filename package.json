@@ -44,7 +44,6 @@
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "semantic-release": "^15.13.3",
-    "ssh2": "^0.6.1",
     "stream-equal": "^1.1.1"
   },
   "engines": {
