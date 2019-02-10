@@ -1,14 +1,18 @@
 import test from "ava";
 import { SFTPScheme } from "../src/sftp-scheme";
-import { join } from "path";
+import { join, dirname } from "path";
 import { readFileSync, createReadStream, openSync, read } from "fs";
-import { Server, SFTP_OPEN_MODE, SFTP_STATUS_CODE } from "ssh2";
+import Client from "ssh2/lib/client";
+import Server from "ssh2/lib/server";
 import streamEqual from "stream-equal";
+import { fileURLToPath } from "url";
+
+const here = dirname(fileURLToPath(import.meta.url));
 
 const PORT = 12345;
 const USER = "abc";
 const PASSWORD = "secret";
-const FILE = join(__dirname, "..", "tests", "sftp-test.js");
+const FILE = join(here, "..", "tests", "sftp-test.js");
 
 test("has name", t => {
   const scheme = new SFTPScheme();
@@ -33,7 +37,7 @@ test.cb.skip("get", t => {
   const context = undefined;
   const scheme = new SFTPScheme({
     privateKey: readFileSync(
-      join(__dirname, "..", "tests", "fixtures", "identity.key")
+      join(here, "..", "tests", "fixtures", "identity.key")
     )
   });
 
@@ -56,7 +60,7 @@ test('stat', async t => {
   const context = undefined;
   const scheme = new SFTPScheme({
     privateKey: readFileSync(
-      join(__dirname, '..', 'tests', 'fixtures', 'identity.key')
+      join(here, '..', 'tests', 'fixtures', 'identity.key')
     )
   });
   info = await scheme.stat(
@@ -73,7 +77,7 @@ function createSFTPServer() {
     new Server(
       {
         hostKeys: [
-          readFileSync(join(__dirname, "..", "tests", "fixtures", "host.key"))
+          readFileSync(join(here, "..", "tests", "fixtures", "host.key"))
         ]
       },
       client => {
@@ -146,8 +150,8 @@ function createSFTPServer() {
                   .on("open", (reqid, filename, flags, attrs) => {
                     console.log(`Opening ${filename}`);
 
-                    if (filename !== FILE || !(flags & SFTP_OPEN_MODE.READ)) {
-                      return sftpStream.status(reqid, SFTP_STATUS_CODE.FAILURE);
+                    if (filename !== FILE || !(flags & Client.SFTP_OPEN_MODE.READ)) {
+                      return sftpStream.status(reqid, Client.SFTP_STATUS_CODE.FAILURE);
                     }
                     const handle = new Buffer(4);
                     openFiles[handleCount] = true;

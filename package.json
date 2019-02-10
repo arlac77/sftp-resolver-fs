@@ -4,8 +4,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/sftp-scheme.js",
-  "module": "src/sftp-scheme.js",
+  "main": "src/sftp-scheme.mjs",
+  "module": "src/sftp-scheme.mjs",
   "description": "resolves sftp urls",
   "keywords": [
     "url",
@@ -20,10 +20,9 @@
   "license": "BSD-2-Clause",
   "scripts": {
     "cover": "c8 --temp-directory build/coverage ava && c8 report -r lcov --temp-directory build/coverage",
-    "docs": "documentation readme src/sftp-scheme.js --section=API",
-    "lint": "documentation lint src/sftp-scheme.js",
-    "posttest": "markdown-doctest && npm run prepare",
-    "pretest": "rollup -c tests/rollup.config.js",
+    "docs": "documentation readme src/sftp-scheme.mjs --section=API",
+    "lint": "documentation lint src/sftp-scheme.mjs",
+    "posttest": "markdown-doctest",
     "test": "ava"
   },
   "dependencies": {
