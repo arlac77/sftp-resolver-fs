@@ -35,7 +35,7 @@
     "documentation": "^9.3.1",
     "esm": "^3.2.22",
     "markdown-doctest": "^0.9.1",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^15.13.8",
     "stream-equal": "^1.1.1"
   },
   "engines": {
