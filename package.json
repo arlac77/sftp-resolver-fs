@@ -1,7 +1,6 @@
 {
   "name": "sftp-resolver-fs",
   "version": "0.0.0-semantic-release",
-  "type": "module",
   "publishConfig": {
     "access": "public"
   },
@@ -69,5 +68,6 @@
     "repository": {
       "url": "https://github.com/arlac77/npm-package-template-esm-only.git"
     }
-  }
+  },
+  "type": "module"
 }
