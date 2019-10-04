@@ -24,11 +24,14 @@
     "docs": "documentation readme src/sftp-scheme.mjs --section=API",
     "lint": "documentation lint src/sftp-scheme.mjs",
     "posttest": "markdown-doctest",
-    "test": "ava"
+    "test": "ava",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "ssh2-sftp-client": "^4.0.0",
-    "url-resolver-fs": "^8.0.0"
+    "url-resolver-fs": "^8.0.0",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "ava": "^2.4.0",
@@ -69,5 +72,6 @@
     "repository": {
       "url": "https://github.com/arlac77/npm-package-template-esm-only.git"
     }
-  }
+  },
+  "snyk": true
 }
