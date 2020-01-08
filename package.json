@@ -25,7 +25,8 @@
     "docs": "documentation readme src/sftp-scheme.mjs --section=API",
     "lint": "documentation lint src/sftp-scheme.mjs",
     "posttest": "markdown-doctest",
-    "test": "ava"
+    "test": "ava",
+    "prepare": "rollup -c"
   },
   "dependencies": {
     "ssh2-sftp-client": "^4.0.0",
