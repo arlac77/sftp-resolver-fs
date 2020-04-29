@@ -7,7 +7,6 @@
   "sideEffects": false,
   "type": "module",
   "main": "src/sftp-scheme.mjs",
-  "module": "src/sftp-scheme.mjs",
   "description": "resolves sftp urls",
   "keywords": [
     "url",
