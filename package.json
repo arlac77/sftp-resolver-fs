@@ -8,8 +8,7 @@
   "type": "module",
   "main": "src/sftp-scheme.mjs",
   "exports": {
-    ".": "src/sftp-scheme.mjs",
-    "./": "./"
+    ".": "src/sftp-scheme.mjs"
   },
   "description": "resolves sftp urls",
   "keywords": [
