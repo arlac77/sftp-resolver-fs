@@ -37,7 +37,7 @@
     "c8": "^7.1.2",
     "documentation": "^13.0.0",
     "semantic-release": "^17.0.8",
-    "stream-equal": "^1.1.1"
+    "stream-equal": "^2.0.0"
   },
   "engines": {
     "node": ">=12.16.3"
