@@ -5,8 +5,6 @@
     "access": "public"
   },
   "sideEffects": false,
-  "type": "module",
-  "main": "./src/sftp-scheme.mjs",
   "exports": {
     ".": "./src/sftp-scheme.mjs"
   },
