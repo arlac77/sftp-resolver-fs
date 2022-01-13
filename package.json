@@ -40,7 +40,7 @@
     "stream-equal": "^2.0.0"
   },
   "engines": {
-    "node": ">=14.18.1"
+    "node": ">=14.18.3"
   },
   "repository": {
     "type": "git",
