@@ -39,7 +39,7 @@ URLScheme for sftp access
 
 *   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
 
-    *   `options.privateKey` **([UInt8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | [Buffer](https://nodejs.org/api/buffer.html))** 
+    *   `options.privateKey` **([UInt8Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) | [Buffer](https://nodejs.org/api/buffer.html))**&#x20;
 
 ### get
 
@@ -47,7 +47,7 @@ Creates a readable stream for the content of th file associated to a given file 
 
 #### Parameters
 
-*   `context` **Context** 
+*   `context` **Context**&#x20;
 *   `url` **[URL](https://developer.mozilla.org/docs/Web/API/URL/URL)** of the a file
 *   `options` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?** passed as options to fs.createReadStream()
 
@@ -74,7 +74,7 @@ form the given set of environment variables
 
 #### Parameters
 
-*   `env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+*   `env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** undefined if no suitable environment variables have been found
 
