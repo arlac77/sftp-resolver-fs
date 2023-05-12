@@ -1,6 +1,6 @@
 [![npm](https://img.shields.io/npm/v/sftp-resolver-fs.svg)](https://www.npmjs.com/package/sftp-resolver-fs)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Open Bundle](https://bundlejs.com/badge-light.svg)](https://bundlejs.com/?q=sftp-resolver-fs)
+[![bundlejs](https://deno.bundlejs.com/?q=sftp-resolver-fs\&badge=detailed)](https://bundlejs.com/?q=sftp-resolver-fs)
 [![downloads](http://img.shields.io/npm/dm/sftp-resolver-fs.svg?style=flat-square)](https://npmjs.org/package/sftp-resolver-fs)
 [![GitHub Issues](https://img.shields.io/github/issues/arlac77/sftp-resolver-fs.svg?style=flat-square)](https://github.com/arlac77/sftp-resolver-fs/issues)
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Farlac77%2Fsftp-resolver-fs%2Fbadge\&style=flat)](https://actions-badge.atrox.dev/arlac77/sftp-resolver-fs/goto)
