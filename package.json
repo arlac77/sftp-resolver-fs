@@ -28,7 +28,7 @@
     "lint:docs": "documentation lint ./src/**/*.mjs"
   },
   "dependencies": {
-    "ssh2-sftp-client": "^9.0.0",
+    "ssh2-sftp-client": "^10.0.0",
     "url-resolver-fs": "^8.0.0"
   },
   "devDependencies": {
