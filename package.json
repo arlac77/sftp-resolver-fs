@@ -50,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/arlac77/sftp-resolver-fs/issues"
   },
-  "homepage": "https://github.com/arlac77/sftp-resolver-fs#readme",
+  "homepage": "",
   "template": {
     "inheritFrom": [
       "arlac77/template-arlac77-github",
